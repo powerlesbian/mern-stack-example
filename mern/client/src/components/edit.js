@@ -11,24 +11,30 @@ class Edit extends Component {
     this.onChangePersonName = this.onChangePersonName.bind(this);
     this.onChangePersonPosition = this.onChangePersonPosition.bind(this);
     this.onChangePersonLevel = this.onChangePersonLevel.bind(this);
+    this.onChangePersonAddress = this.onChangePersonAddress.bind(this);
+    this.onChangePersonPhone = this.onChangePersonPhone.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       person_name: "",
       person_position: "",
       person_level: "",
+      person_address: "",
+      person_phone:"",
       records: [],
     };
   }
   // This will get the record based on the id from the database.
   componentDidMount() {
     axios
-      .get("http://localhost:5000/record/" + this.props.match.params.id)
+      .get("http://localhost:5050/record/" + this.props.match.params.id)
       .then((response) => {
         this.setState({
           person_name: response.data.person_name,
           person_position: response.data.person_position,
           person_level: response.data.person_level,
+          person_address:response.data.person_address,
+          person_phone:response.data.person_phone,
         });
       })
       .catch(function (error) {
@@ -54,7 +60,17 @@ class Edit extends Component {
       person_level: e.target.value,
     });
   }
+  onChangePersonAddress(e) {
+    this.setState({
+      person_address: e.target.value,
+    });
+  }
 
+  onChangePersonPhone(e) {
+    this.setState({
+      person_phone: e.target.value,
+    });
+  }
   // This function will handle the submission.
   onSubmit(e) {
     e.preventDefault();
@@ -62,13 +78,16 @@ class Edit extends Component {
       person_name: this.state.person_name,
       person_position: this.state.person_position,
       person_level: this.state.person_level,
+      person_address: this.state.person_address,
+      person_phone: this.state.person_phone
+
     };
     console.log(newEditedperson);
 
     // This will send a post request to update the data in the database.
     axios
       .post(
-        "http://localhost:5000/update/" + this.props.match.params.id,
+        "http://localhost:5050/update/" + this.props.match.params.id,
         newEditedperson
       )
       .then((res) => console.log(res.data));
@@ -138,6 +157,26 @@ class Edit extends Component {
               <label className="form-check-label">Senior</label>
             </div>
           </div>
+
+          <div className="form-group">
+            <label>Person's Address: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.person_address}
+              onChange={this.onChangePersonAddress}
+            />
+          </div>
+          <div className="form-group">
+            <label>Person's Phone: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.person_phone}
+              onChange={this.onChangePersonPhone}
+            />
+          </div>
+
           <br />
 
           <div className="form-group">

@@ -10,12 +10,16 @@ export default class Create extends Component {
     this.onChangePersonName = this.onChangePersonName.bind(this);
     this.onChangePersonPosition = this.onChangePersonPosition.bind(this);
     this.onChangePersonLevel = this.onChangePersonLevel.bind(this);
+    this.onChangePersonAddress = this.onChangePersonAddress.bind(this);
+    this.onChangePersonPhone = this.onChangePersonPhone.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       person_name: "",
       person_position: "",
       person_level: "",
+      person_address: "",
+      person_phone: ""
     };
   }
 
@@ -37,7 +41,16 @@ export default class Create extends Component {
       person_level: e.target.value,
     });
   }
-
+  onChangePersonAddress(e) {
+    this.setState({
+      person_address: e.target.value,
+    });
+  }
+  onChangePersonPhone(e) {
+    this.setState({
+      person_phone: e.target.value,
+    });
+  }
 // This function will handle the submission.
   onSubmit(e) {
     e.preventDefault();
@@ -47,10 +60,12 @@ export default class Create extends Component {
       person_name: this.state.person_name,
       person_position: this.state.person_position,
       person_level: this.state.person_level,
+      person_address: this.state.person_address,
+      person_phone: this.state.person_phone
     };
 
     axios
-      .post("http://localhost:5000/record/add", newperson)
+      .post("http://localhost:5050/record/add", newperson)
       .then((res) => console.log(res.data));
 
     // We will empty the state after posting the data to the database
@@ -58,6 +73,8 @@ export default class Create extends Component {
       person_name: "",
       person_position: "",
       person_level: "",
+      person_address: "",
+      person_phone: ""
     });
   }
 
@@ -123,6 +140,26 @@ export default class Create extends Component {
               <label className="form-check-label">Senior</label>
             </div>
           </div>
+
+          <div className="form-group">
+            <label>Person's Address: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.person_address}
+              onChange={this.onChangePersonAddress}
+            />
+          </div>
+          <div className="form-group">
+            <label>Person's Phone: </label>
+            <input
+              type="number"
+              className="form-control"
+              value={this.state.person_phone}
+              onChange={this.onChangePersonPhone}
+            />
+          </div>
+
           <div className="form-group">
             <input
               type="submit"

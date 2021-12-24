@@ -8,6 +8,8 @@ const Record = (props) => (
     <td>{props.record.person_name}</td>
     <td>{props.record.person_position}</td>
     <td>{props.record.person_level}</td>
+    <td>{props.record.person_address}</td>
+    <td>{props.record.person_phone}</td>
     <td>
       <Link to={"/edit/" + props.record._id}>Edit</Link> |
       <a
@@ -33,7 +35,7 @@ export default class RecordList extends Component {
   // This method will get the data from the database.
   componentDidMount() {
     axios
-      .get("http://localhost:5000/record/")
+      .get("http://localhost:5050/record/")
       .then((response) => {
         this.setState({ records: response.data });
       })
@@ -44,7 +46,7 @@ export default class RecordList extends Component {
 
   // This method will delete a record based on the method
   deleteRecord(id) {
-    axios.delete("http://localhost:5000/" + id).then((response) => {
+    axios.delete("http://localhost:5050/" + id).then((response) => {
       console.log(response.data);
     });
 
@@ -77,6 +79,8 @@ export default class RecordList extends Component {
               <th>Name</th>
               <th>Position</th>
               <th>Level</th>
+              <th>Address</th>
+              <th>Phone</th>
               <th>Action</th>
             </tr>
           </thead>
